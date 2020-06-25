@@ -7,6 +7,11 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    // Load values from keystore.properties file
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
     defaultConfig {
         applicationId "com.example.githubbrowserwithapollo"
         minSdkVersion 21
@@ -15,6 +20,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Create BuildConfig variables
+        buildConfigField("String", "GITHUB_ACCESS_TOKEN", keystoreProperties["GITHUB_ACCESS_TOKEN"])
     }
 
     buildTypes {
@@ -52,4 +60,11 @@ dependencies {
     implementation "com.apollographql.apollo:apollo-runtime:$apollo"
     implementation "com.apollographql.apollo:apollo-coroutines-support:$apollo"
     implementation "com.apollographql.apollo:apollo-normalized-cache-sqlite:$apollo"
+
+    // Timber
+    implementation "com.jakewharton.timber:timber:$timber"
+
+    // lifecycle
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
 }
