@@ -1,0 +1,11 @@
+query MyRepos($first: Int!) {
+    viewer {
+        login
+        repositories(first: $first) {
+            nodes {
+                name
+                id
+            }
+        }
+    }
+}
