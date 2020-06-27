@@ -2,6 +2,7 @@ package com.example.githubbrowserwithapollo
 
 import android.app.Application
 import com.example.githubbrowserwithapollo.di.apiModule
+import com.example.githubbrowserwithapollo.di.repositoryModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
@@ -15,7 +16,7 @@ class App : Application() {
 
         startKoin {
             androidContext(this@App)
-            modules(apiModule)
+            modules(apiModule, repositoryModule)
         }
     }
 }
