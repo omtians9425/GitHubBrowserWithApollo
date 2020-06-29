@@ -5,6 +5,8 @@ query MyRepos($first: Int!) {
             nodes {
                 name
                 id
+                description
+                url
             }
         }
     }

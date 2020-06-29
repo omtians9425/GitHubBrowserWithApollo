@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.apollographql.apollo'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -40,6 +41,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 apollo {
@@ -74,4 +79,8 @@ dependencies {
     implementation "org.koin:koin-androidx-scope:$koin"
     implementation "org.koin:koin-androidx-viewmodel:$koin"
     implementation "org.koin:koin-androidx-fragment:$koin"
+
+    implementation "com.airbnb.android:epoxy:$epoxy"
+    kapt "com.airbnb.android:epoxy-processor:$epoxy"
+    implementation "com.airbnb.android:epoxy-databinding:$epoxy"
 }
