@@ -7,7 +7,7 @@ import com.example.githubbrowserwithapollo.MyReposQuery
 import kotlinx.coroutines.flow.Flow
 
 class GitHubRepoRepositoryImpl(private val apolloClient: ApolloClient) : GitHubRepoRepository {
-    override fun fetchMyRepository(): Flow<Response<MyReposQuery.Data?>> {
-        return apolloClient.query(MyReposQuery(first = 4)).toFlow()
+    override fun fetchMyRepository(first: Int): Flow<Response<MyReposQuery.Data?>> {
+        return apolloClient.query(MyReposQuery(first)).toFlow()
     }
 }

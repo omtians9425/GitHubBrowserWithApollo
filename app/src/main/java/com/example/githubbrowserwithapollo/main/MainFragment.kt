@@ -26,8 +26,9 @@ class MainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMainBinding.inflate(layoutInflater, container, false)
-        binding.epoxyRecyclerView.setController(controller)
+        binding = FragmentMainBinding.inflate(layoutInflater, container, false).apply {
+            epoxyRecyclerView.setController(controller)
+        }
         return binding.root
     }
 
@@ -49,6 +50,5 @@ class MainFragment : Fragment() {
                 }
             }
         })
-
     }
 }

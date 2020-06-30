@@ -15,6 +15,10 @@ import timber.log.Timber
 
 class MainViewModel(gitHubRepoRepository: GitHubRepoRepository) : ViewModel() {
 
+    companion object {
+        const val REPOS_GET_NUM = 10
+    }
+
     private val _viewState = MutableLiveData<ViewState>()
     val viewState: LiveData<ViewState>
         get() = _viewState
@@ -24,7 +28,7 @@ class MainViewModel(gitHubRepoRepository: GitHubRepoRepository) : ViewModel() {
         get() = _viewEffect
 
     init {
-        gitHubRepoRepository.fetchMyRepository().onEach { response ->
+        gitHubRepoRepository.fetchMyRepository(REPOS_GET_NUM).onEach { response ->
             response.data?.let {
                 _viewState.value = ViewState(repoData = it)
             } ?: run {
