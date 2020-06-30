@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.githubbrowserwithapollo.databinding.FragmentMainBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -31,12 +32,21 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.i("$mainViewModel")
 
-        mainViewModel.myRepos.observe(viewLifecycleOwner, Observer {
-            it ?: return@Observer
-            Timber.i("$it")
-            controller.setData(it)
+        mainViewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
+            Timber.i("$viewState")
+            viewState?.repoData?.let { controller.setData(it) }
         })
+
+        mainViewModel.viewEffect.observe(viewLifecycleOwner, Observer { viewEffect ->
+            viewEffect ?: return@Observer
+            Timber.i("$viewEffect")
+            when (viewEffect) {
+                is MainScreen.ViewEffect.ErrorSnackbarEffect -> {
+                    Snackbar.make(binding.root, viewEffect.error.errorResId, Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        })
+
     }
 }
