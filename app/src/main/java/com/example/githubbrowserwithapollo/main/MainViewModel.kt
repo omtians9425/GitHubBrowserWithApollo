@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.githubbrowserwithapollo.Event
 import com.example.githubbrowserwithapollo.data.GitHubRepoRepository
 import com.example.githubbrowserwithapollo.main.MainScreen.Error
 import com.example.githubbrowserwithapollo.main.MainScreen.ViewEffect
@@ -18,8 +19,8 @@ class MainViewModel(gitHubRepoRepository: GitHubRepoRepository) : ViewModel() {
     val viewState: LiveData<ViewState>
         get() = _viewState
 
-    private val _viewEffect = MutableLiveData<ViewEffect>()
-    val viewEffect: LiveData<ViewEffect>
+    private val _viewEffect = MutableLiveData<Event<ViewEffect>>()
+    val viewEffect: LiveData<Event<ViewEffect>>
         get() = _viewEffect
 
     init {
@@ -28,8 +29,7 @@ class MainViewModel(gitHubRepoRepository: GitHubRepoRepository) : ViewModel() {
                 _viewState.value = ViewState(repoData = it)
             } ?: run {
                 Timber.e("${response.errors}")
-                _viewEffect.value =
-                    ViewEffect.ErrorSnackbarEffect(Error.ApiError)
+                _viewEffect.value = Event(ViewEffect.ErrorSnackbar(Error.ApiError))
             }
         }.launchIn(viewModelScope)
     }

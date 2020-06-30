@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.githubbrowserwithapollo.databinding.FragmentMainBinding
+import com.example.githubbrowserwithapollo.main.MainScreen.ViewEffect
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -38,12 +39,13 @@ class MainFragment : Fragment() {
             viewState?.repoData?.let { controller.setData(it) }
         })
 
-        mainViewModel.viewEffect.observe(viewLifecycleOwner, Observer { viewEffect ->
-            viewEffect ?: return@Observer
-            Timber.i("$viewEffect")
-            when (viewEffect) {
-                is MainScreen.ViewEffect.ErrorSnackbarEffect -> {
-                    Snackbar.make(binding.root, viewEffect.error.errorResId, Snackbar.LENGTH_SHORT).show()
+        mainViewModel.viewEffect.observe(viewLifecycleOwner, Observer { event ->
+            val effect = event?.getContentIfNotHandled() ?: return@Observer
+            Timber.i("$effect")
+            when (effect) {
+                is ViewEffect.ErrorSnackbar -> {
+                    Snackbar.make(binding.root, effect.error.errorResId, Snackbar.LENGTH_SHORT)
+                        .show()
                 }
             }
         })

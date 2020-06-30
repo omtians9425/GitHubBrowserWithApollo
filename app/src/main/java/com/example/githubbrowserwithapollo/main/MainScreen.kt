@@ -11,7 +11,7 @@ object MainScreen {
     )
 
     sealed class ViewEffect {
-        class ErrorSnackbarEffect(val error: Error) : ViewEffect()
+        class ErrorSnackbar(val error: Error) : ViewEffect()
     }
 
     sealed class Error(@StringRes val errorResId: Int) {
