@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.example.githubbrowserwithapollo.R
+import com.example.githubbrowserwithapollo.databinding.FragmentMainBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -16,12 +16,17 @@ class MainFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by viewModel()
 
+    private lateinit var binding: FragmentMainBinding
+    private val controller = GitHubRepositoryController()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        binding = FragmentMainBinding.inflate(layoutInflater, container, false)
+        binding.epoxyRecyclerView.setController(controller)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,7 +34,9 @@ class MainFragment : Fragment() {
         Timber.i("$mainViewModel")
 
         mainViewModel.myRepos.observe(viewLifecycleOwner, Observer {
+            it ?: return@Observer
             Timber.i("$it")
+            controller.setData(it)
         })
     }
 }
