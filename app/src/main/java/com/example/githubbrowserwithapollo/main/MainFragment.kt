@@ -50,5 +50,7 @@ class MainFragment : Fragment() {
                 }
             }
         })
+
+        mainViewModel.fetchMyRepository()
     }
 }

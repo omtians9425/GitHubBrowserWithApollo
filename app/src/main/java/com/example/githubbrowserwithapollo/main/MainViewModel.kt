@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
-class MainViewModel(gitHubRepoRepository: GitHubRepoRepository) : ViewModel() {
+class MainViewModel(private val gitHubRepoRepository: GitHubRepoRepository) : ViewModel() {
 
     companion object {
         const val REPOS_GET_NUM = 10
@@ -27,7 +27,8 @@ class MainViewModel(gitHubRepoRepository: GitHubRepoRepository) : ViewModel() {
     val viewEffect: LiveData<Event<ViewEffect>>
         get() = _viewEffect
 
-    init {
+
+    fun fetchMyRepository() {
         gitHubRepoRepository.fetchMyRepository(REPOS_GET_NUM).onEach { response ->
             response.data?.let {
                 _viewState.value = ViewState(repoData = it)
