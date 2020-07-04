@@ -32,6 +32,9 @@ class MainViewModel(private val gitHubRepoRepository: GitHubRepoRepository) : Vi
     fun fetchMyRepository() {
         gitHubRepoRepository.fetchMyRepository(REPOS_GET_NUM).onEach { lce ->
             when(lce) {
+                is Lce.Loading -> {
+                    _viewState.value = ViewState()
+                }
                 is Lce.Content -> {
                     _viewState.value = ViewState(repoData = lce.data)
                 }
