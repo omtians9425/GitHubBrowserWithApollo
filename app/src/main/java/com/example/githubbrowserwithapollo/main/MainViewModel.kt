@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.githubbrowserwithapollo.Event
 import com.example.githubbrowserwithapollo.data.GitHubRepoRepository
+import com.example.githubbrowserwithapollo.data.Lce
 import com.example.githubbrowserwithapollo.main.MainScreen.Error
 import com.example.githubbrowserwithapollo.main.MainScreen.ViewEffect
 import com.example.githubbrowserwithapollo.main.MainScreen.ViewState
@@ -29,12 +30,15 @@ class MainViewModel(private val gitHubRepoRepository: GitHubRepoRepository) : Vi
 
 
     fun fetchMyRepository() {
-        gitHubRepoRepository.fetchMyRepository(REPOS_GET_NUM).onEach { response ->
-            response.data?.let {
-                _viewState.value = ViewState(repoData = it)
-            } ?: run {
-                Timber.e("${response.errors}")
-                _viewEffect.value = Event(ViewEffect.ErrorSnackbar(Error.ApiError))
+        gitHubRepoRepository.fetchMyRepository(REPOS_GET_NUM).onEach { lce ->
+            when(lce) {
+                is Lce.Content -> {
+                    _viewState.value = ViewState(repoData = lce.data)
+                }
+                is Lce.Error -> {
+                    Timber.e(lce.errorMsg)
+                    _viewEffect.value = Event(ViewEffect.ErrorSnackbar(Error.ApiError))
+                }
             }
         }.launchIn(viewModelScope)
     }
