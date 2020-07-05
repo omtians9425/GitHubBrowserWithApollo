@@ -38,7 +38,7 @@ class MainViewModel(private val gitHubRepoRepository: GitHubRepoRepository) : Vi
                     _viewState.value = ViewState(repoData = lce.data)
                 }
                 is Lce.Error -> {
-                    Timber.e(lce.errorMsg)
+                    Timber.e(lce.throwable)
                     _viewEffect.value = Event(ViewEffect.ErrorSnackbar(Error.ApiError))
                 }
             }

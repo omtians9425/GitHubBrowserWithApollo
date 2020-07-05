@@ -21,7 +21,7 @@ class GitHubRepoRepositoryImpl(private val apolloClient: ApolloClient) : GitHubR
             .onStart { Lce.Loading<MyReposQuery.Data>() }
             .map { response ->
                 response.data?.let { Lce.Content(it) }
-                    ?: run { Lce.Error<MyReposQuery.Data>(response.errors!!.joinToString()) }
+                    ?: run { Lce.Error<MyReposQuery.Data>(RuntimeException(response.errors!!.joinToString())) }
             }
     }
 }

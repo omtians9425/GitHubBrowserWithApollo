@@ -14,9 +14,9 @@ fun <T> ApolloCall<T>.toLceFlow() = toFlow().map { response ->
     response.data?.let {
         Lce.Content<T>(it)
     } ?: run {
-        val msg = response.errors!!.joinToString()
+        val msg = response.errors?.joinToString() ?: "error"
         Timber.e(msg)
-        Lce.Error<T>(msg)
+        Lce.Error<T>(RuntimeException(msg))
     }
 }.onStart {
     emit(Lce.Loading<T>())
@@ -27,9 +27,9 @@ fun <T> toLceFlow(flow: Flow<Response<T>>) = flow.map { response ->
     response.data?.let {
         Lce.Content<T>(it)
     } ?: run {
-        val msg = response.errors!!.joinToString()
+        val msg = response.errors?.joinToString() ?: "error"
         Timber.e(msg)
-        Lce.Error<T>(msg)
+        Lce.Error<T>(RuntimeException(msg))
     }
 }.onStart {
     emit(Lce.Loading<T>())
