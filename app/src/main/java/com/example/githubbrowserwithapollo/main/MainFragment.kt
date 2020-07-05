@@ -51,6 +51,6 @@ class MainFragment : Fragment() {
             }
         })
 
-        mainViewModel.fetchMyRepository()
+        mainViewModel.fetchMyRepositories()
     }
 }

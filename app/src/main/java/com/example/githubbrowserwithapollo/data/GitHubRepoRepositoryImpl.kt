@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.onStart
 
 @ExperimentalCoroutinesApi
 class GitHubRepoRepositoryImpl(private val apolloClient: ApolloClient) : GitHubRepoRepository {
-    override fun fetchMyRepository(first: Int): Flow<Lce<MyReposQuery.Data>> {
+    override fun fetchMyRepositories(first: Int): Flow<Lce<MyReposQuery.Data>> {
         return apolloClient.query(MyReposQuery(first)).toLceFlow()
     }
 

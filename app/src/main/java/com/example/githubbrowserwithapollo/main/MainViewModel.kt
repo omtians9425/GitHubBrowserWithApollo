@@ -28,8 +28,8 @@ class MainViewModel(private val gitHubRepoRepository: GitHubRepoRepository) : Vi
     val viewEffect: LiveData<Event<ViewEffect>>
         get() = _viewEffect
 
-    fun fetchMyRepository() {
-        gitHubRepoRepository.fetchMyRepository(REPOS_GET_NUM).onEach { lce ->
+    fun fetchMyRepositories() {
+        gitHubRepoRepository.fetchMyRepositories(REPOS_GET_NUM).onEach { lce ->
             when (lce) {
                 is Lce.Loading -> {
                     _viewState.value = ViewState()
