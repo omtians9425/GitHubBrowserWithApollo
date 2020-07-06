@@ -39,7 +39,7 @@ class MainViewModel(private val gitHubRepoRepository: GitHubRepoRepository) : Vi
                 }
                 is Lce.Error -> {
                     Timber.e(lce.throwable)
-                    _viewEffect.value = Event(ViewEffect.ErrorSnackbar(Error.ApiError))
+                    _viewEffect.value = Event(ViewEffect.ErrorSnackbarEffect(Error.ApiError))
                 }
             }
         }.launchIn(viewModelScope)

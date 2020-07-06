@@ -44,7 +44,7 @@ class MainFragment : Fragment() {
             val effect = event?.getContentIfNotHandled() ?: return@Observer
             Timber.i("$effect")
             when (effect) {
-                is ViewEffect.ErrorSnackbar -> {
+                is ViewEffect.ErrorSnackbarEffect -> {
                     Snackbar.make(binding.root, effect.error.errorResId, Snackbar.LENGTH_SHORT)
                         .show()
                 }
