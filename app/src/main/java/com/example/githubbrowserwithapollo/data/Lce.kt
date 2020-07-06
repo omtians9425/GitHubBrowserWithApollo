@@ -1,7 +1,7 @@
 package com.example.githubbrowserwithapollo.data
 
-sealed class Lce<T> {
-    class Loading<T> : Lce<T>()
+sealed class Lce<out T> {
+    object Loading : Lce<Nothing>()
     data class Content<T>(val data: T) : Lce<T>()
     data class Error<T>(val throwable: Throwable) : Lce<T>()
 }

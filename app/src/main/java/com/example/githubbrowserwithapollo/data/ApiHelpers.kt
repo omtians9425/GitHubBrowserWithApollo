@@ -23,7 +23,7 @@ fun <T> ApolloCall<T>.toLceFlow() = toFlow().map { response ->
         Lce.Error<T>(RuntimeException(msg))
     }
 }.onStart {
-    emit(Lce.Loading<T>())
+    emit(Lce.Loading)
 }.catch {
     // Other Errors. eg: Network connection
     Timber.e("$it")
@@ -40,5 +40,5 @@ fun <T> toLceFlow(flow: Flow<Response<T>>) = flow.map { response ->
         Lce.Error<T>(RuntimeException(msg))
     }
 }.onStart {
-    emit(Lce.Loading<T>())
+    emit(Lce.Loading)
 }

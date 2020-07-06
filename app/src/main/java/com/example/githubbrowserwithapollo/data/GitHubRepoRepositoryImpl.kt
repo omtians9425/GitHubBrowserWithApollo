@@ -18,7 +18,7 @@ class GitHubRepoRepositoryImpl(private val apolloClient: ApolloClient) : GitHubR
     fun fetchMyRepositoryWithoutHelper(first: Int): Flow<Lce<MyReposQuery.Data>> {
         return apolloClient.query(MyReposQuery(first))
             .toFlow()
-            .onStart { Lce.Loading<MyReposQuery.Data>() }
+            .onStart { Lce.Loading }
             .map { response ->
                 response.data?.let { Lce.Content(it) }
                     ?: run { Lce.Error<MyReposQuery.Data>(RuntimeException(response.errors!!.joinToString())) }
