@@ -32,7 +32,7 @@ class ApiHelpersTest {
     }
 
     @Test
-    fun `toLceFlow is success when data is non-null`() = coroutineRule.runBlockingTest {
+    fun `toLceFlow returns Content when data is non-null`() = coroutineRule.runBlockingTest {
         every { response.data } returns mockk(relaxed = true)
 
         mockApolloCallToFlow()
@@ -43,7 +43,7 @@ class ApiHelpersTest {
     }
 
     @Test
-    fun `toLceFlow is error when data is null`() = coroutineRule.runBlockingTest {
+    fun `toLceFlow returns Error when data is null`() = coroutineRule.runBlockingTest {
         every { response.data } returns null
 
         mockApolloCallToFlow()
@@ -54,16 +54,17 @@ class ApiHelpersTest {
     }
 
     @Test
-    fun `toLceFlow non-ext success when data is non-null`() = coroutineRule.runBlockingTest {
-        every { response.data } returns mockk()
+    fun `toLceFlow non-ext returns Content when data is non-null`() =
+        coroutineRule.runBlockingTest {
+            every { response.data } returns mockk()
 
-        val result = toLceFlow(flowOf(response)).toList()
-        assertThat(result[0]).isInstanceOf(Lce.Loading::class.java)
-        assertThat(result[1]).isInstanceOf(Lce.Content::class.java)
-    }
+            val result = toLceFlow(flowOf(response)).toList()
+            assertThat(result[0]).isInstanceOf(Lce.Loading::class.java)
+            assertThat(result[1]).isInstanceOf(Lce.Content::class.java)
+        }
 
     @Test
-    fun `toLceFlow non-ext error when data is null`() = coroutineRule.runBlockingTest {
+    fun `toLceFlow non-ext returns Error when data is null`() = coroutineRule.runBlockingTest {
         every { response.data } returns null
 
         val result = toLceFlow(flowOf(response)).toList()
