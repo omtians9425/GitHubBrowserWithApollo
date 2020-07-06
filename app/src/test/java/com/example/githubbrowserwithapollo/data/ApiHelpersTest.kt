@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Rule
 import org.junit.Test
+import java.lang.RuntimeException
 
 @ExperimentalCoroutinesApi
 class ApiHelpersTest {
@@ -45,6 +46,17 @@ class ApiHelpersTest {
     @Test
     fun `toLceFlow returns Error when data is null`() = coroutineRule.runBlockingTest {
         every { response.data } returns null
+
+        mockApolloCallToFlow()
+
+        val result = apolloCall.query(MyReposQuery(1)).toLceFlow().toList()
+        assertThat(result[0]).isInstanceOf(Lce.Loading::class.java)
+        assertThat(result[1]).isInstanceOf(Lce.Error::class.java)
+    }
+
+    @Test
+    fun `toLceFlow returns Error when exception`() = coroutineRule.runBlockingTest {
+        every { response.data } throws RuntimeException()
 
         mockApolloCallToFlow()
 
