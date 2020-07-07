@@ -17,6 +17,8 @@ val apiModule = module {
 
         ApolloClient.builder()
             .serverUrl("https://api.github.com/graphql")
+            .enableAutoPersistedQueries(true)
+            .useHttpGetMethodForPersistedQueries(true)
             .okHttpClient(okHttpClient)
             .build()
     }
